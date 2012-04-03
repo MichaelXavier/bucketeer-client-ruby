@@ -10,7 +10,10 @@ Gem::Specification.new do |s|
   EOS
   s.authors     = ["Michael Xavier"]
   s.email       = 'michael@michaelxavier.net'
-  s.files       = ["lib/example.rb"]
+  s.files       = %w[ lib/bucketeer-client.rb
+                      lib/bucketeer/bucket.rb
+                      lib/bucketeer/client.rb
+                      Gemfile ]
   s.require_path = 'lib'
 
   s.add_runtime_dependency 'faraday',            '~> 0.8.0.rc2'
