@@ -8,6 +8,8 @@ module Bucketeer
 
     def_delegators :@connection, :get, :post, :delete
 
+    class BucketNotFound < StandardError; end
+
     def initialize(base_url, adapter = Faraday.default_adapter)
       @connection = Faraday.new(base_url) do |conn|
         conn.response :json
@@ -36,22 +38,29 @@ module Bucketeer
     end
 
     def remaining(consumer, feature)
-      
+      request(:get, "/consumers/#{consumer}/buckets/#{feature}")['remaining']
     end
 
     def tick(consumer, feature)
-      
+      request(:post, "/consumers/#{consumer}/buckets/#{feature}/tick")['remaining']
     end
 
     def refill(consumer, feature)
-      
+      request(:post, "/consumers/#{consumer}/buckets/#{feature}/refill")['remaining']
     end
 
     def drain(consumer, feature)
-      
+      request(:post, "/consumers/#{consumer}/buckets/#{feature}/drain")
+      self
     end
 
   private
+
+    def request(meth, url, *args)
+      resp = send(meth, url, *args)
+      raise BucketNotFound, url if resp.status == 404
+      resp.body
+    end
     
     def new_bucket(hash)
       Bucketeer::Bucket.new(hash.fetch('consumer'),

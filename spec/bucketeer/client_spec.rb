@@ -90,4 +90,94 @@ describe Bucketeer::Client do
       end
     end
   end
+
+  describe "#remaining" do
+    let(:response_body) { %({"remaining":9}) }
+
+    it "sends the remaining request" do
+      subject.remaining('summer', 'barrel_roll')
+      a_request(:get, 'http://example.com/consumers/summer/buckets/barrel_roll').
+        should have_been_made
+    end
+
+    it "returns the remaining count" do
+      subject.remaining("summer", "barrel_roll").should == 9
+    end
+
+    context "bucket not found" do
+      let(:status) { 404 }
+
+      it "raises a BucketNotFound error" do
+        expect { subject.remaining("summer", "barrel_roll") }.
+          should raise_error(Bucketeer::Client::BucketNotFound)
+      end
+    end
+  end
+
+  describe "#tick" do
+    let(:response_body) { %({"remaining":8}) }
+
+    it "sends the tick request" do
+      subject.tick('summer', 'barrel_roll')
+      a_request(:post, 'http://example.com/consumers/summer/buckets/barrel_roll/tick').
+        should have_been_made
+    end
+
+    it "returns the remaining count" do
+      subject.tick("summer", "barrel_roll").should == 8
+    end
+
+    context "bucket not found" do
+      let(:status) { 404 }
+
+      it "raises a BucketNotFound error" do
+        expect { subject.tick("summer", "barrel_roll") }.
+          should raise_error(Bucketeer::Client::BucketNotFound)
+      end
+    end
+  end
+
+  describe "#refill" do
+    let(:response_body) { %({"remaining":10}) }
+
+    it "sends the refill request" do
+      subject.refill('summer', 'barrel_roll')
+      a_request(:post, 'http://example.com/consumers/summer/buckets/barrel_roll/refill').
+        should have_been_made
+    end
+
+    it "returns the remaining count" do
+      subject.refill("summer", "barrel_roll").should == 10
+    end
+
+    context "bucket not found" do
+      let(:status) { 404 }
+
+      it "raises a BucketNotFound error" do
+        expect { subject.refill("summer", "barrel_roll") }.
+          should raise_error(Bucketeer::Client::BucketNotFound)
+      end
+    end
+  end
+
+  describe "#drain" do
+    it "sends the refill request" do
+      subject.drain('summer', 'barrel_roll')
+      a_request(:post, 'http://example.com/consumers/summer/buckets/barrel_roll/drain').
+        should have_been_made
+    end
+
+    it "returns the client" do
+      subject.drain("summer", "barrel_roll").should == subject
+    end
+
+    context "bucket not found" do
+      let(:status) { 404 }
+
+      it "raises a BucketNotFound error" do
+        expect { subject.drain("summer", "barrel_roll") }.
+          should raise_error(Bucketeer::Client::BucketNotFound)
+      end
+    end
+  end
 end
