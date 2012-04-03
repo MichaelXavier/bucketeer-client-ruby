@@ -22,39 +22,47 @@ module Bucketeer
     end
 
     def write_bucket(bucket)
-      post("/consumers/#{bucket.consumer}/buckets/#{bucket.feature}",
+      post(feature_path(bucket.consumer, bucket.feature),
            :restore_rate => bucket.restore_rate, :capacity => bucket.capacity) 
       self
     end
 
     def delete_bucket(consumer, feature)
-      delete("/consumers/#{consumer}/buckets/#{feature}")
+      delete(feature_path(consumer, feature))
       self
     end
 
     def delete_consumer(consumer)
-      delete("/consumers/#{consumer}")
+      delete(consumer_path(consumer))
       self
     end
 
     def remaining(consumer, feature)
-      request(:get, "/consumers/#{consumer}/buckets/#{feature}")['remaining']
+      request(:get, feature_path(consumer, feature))['remaining']
     end
 
     def tick(consumer, feature)
-      request(:post, "/consumers/#{consumer}/buckets/#{feature}/tick")['remaining']
+      request(:post, feature_path(consumer, feature, 'tick'))['remaining']
     end
 
     def refill(consumer, feature)
-      request(:post, "/consumers/#{consumer}/buckets/#{feature}/refill")['remaining']
+      request(:post, feature_path(consumer, feature, 'refill'))['remaining']
     end
 
     def drain(consumer, feature)
-      request(:post, "/consumers/#{consumer}/buckets/#{feature}/drain")
+      request(:post, feature_path(consumer, feature, 'drain'))
       self
     end
 
   private
+
+    def consumer_path(consumer, path = nil)
+      ["/consumers/#{consumer}", path].compact.join('/')
+    end
+
+    def feature_path(consumer, feature, path = nil)
+      ["/consumers/#{consumer}/buckets/#{feature}", path].compact.join('/')
+    end
 
     def request(meth, url, *args)
       resp = send(meth, url, *args)
