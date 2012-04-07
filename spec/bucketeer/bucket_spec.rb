@@ -14,5 +14,9 @@ describe Bucketeer::Bucket do
       subject.should_not == Bucketeer::Bucket.new('scout', 'bonk', 3, 4)
     end
   end
+
+  describe "#to_s" do
+    its(:to_s) { should == %(#<Bucketeer::Bucket: @consumer="summer", @feature="barrel_roll", @restore_rate=9, @capacity=10>) }
+  end
 end
 

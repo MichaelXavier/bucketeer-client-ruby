@@ -12,5 +12,9 @@ module Bucketeer
     def ==(other)
       consumer == other.consumer && feature == other.feature
     end
+
+    def to_s
+      %(#<Bucketeer::Bucket: @consumer="#{consumer}", @feature="#{feature}", @restore_rate=#{restore_rate}, @capacity=#{capacity}>)
+    end
   end
 end
