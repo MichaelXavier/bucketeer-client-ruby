@@ -12,6 +12,8 @@ describe Bucketeer::Client do
       to_return(:body => response_body, :status => status)
   end
 
+  its(:to_s) { should == %(#<Bucketeer::Client: @base_url="http://example.com">) }
+
   describe "#buckets" do
     let(:response_body) { %([{"restore_rate":90,"capacity":10,"feature":"barrel_roll","consumer":"summer"}]) }
 
