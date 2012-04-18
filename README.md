@@ -54,3 +54,15 @@ client.drain('michael', 'fun_stuff')
 # reduce remaining to zero
 
 ```
+Configuration
+=============
+The second argument to the initializer is mostly a pass through to Faraday's
+options. Additionally, you can specify an `:adapter` option if you want to use
+something other than the default backend for Faraday:
+
+```ruby
+client = Bucketeer::Client.new("http://localhost:3000",
+                               :adapter      => SomeAdapter,
+                               :timeout      => 20,
+                               :open_timeout => 20)
+```
