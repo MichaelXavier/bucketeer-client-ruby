@@ -14,6 +14,20 @@ describe Bucketeer::Client do
 
   its(:to_s) { should == %(#<Bucketeer::Client: @base_url="http://example.com">) }
 
+  it "supports an arbitrary adapter" do
+    adapter = stub
+    conn    = stub.as_null_object
+    Faraday.stub(:new).and_yield(conn)
+    conn.should_receive(:adapter).with(adapter)
+
+    Bucketeer::Client.new('http://example.com', :adapter => adapter)
+  end
+
+  it "supports arbitrary faraday options" do
+    Faraday.should_receive(:new).with('http://example.com', :foo => 'bar')
+    Bucketeer::Client.new('http://example.com', :foo => 'bar')
+  end
+
   describe "#buckets" do
     let(:response_body) { %([{"restore_rate":90,"capacity":10,"feature":"barrel_roll","consumer":"summer"}]) }
 

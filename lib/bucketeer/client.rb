@@ -10,9 +10,10 @@ module Bucketeer
 
     class BucketNotFound < StandardError; end
 
-    def initialize(base_url, adapter = Faraday.default_adapter)
+    def initialize(base_url, options = {})
       @base_url = base_url
-      @connection = Faraday.new(@base_url) do |conn|
+      adapter = options.delete(:adapter) || Faraday.default_adapter
+      @connection = Faraday.new(@base_url, options) do |conn|
         conn.response :json
         conn.adapter adapter
       end
