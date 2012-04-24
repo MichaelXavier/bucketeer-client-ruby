@@ -16,9 +16,11 @@ Gem::Specification.new do |s|
                       Gemfile ]
   s.require_path = 'lib'
 
+  s.add_runtime_dependency 'json',               '~> 1.6'
   s.add_runtime_dependency 'faraday',            '~> 0.8.0.rc2'
   s.add_runtime_dependency 'faraday_middleware', '~> 0.8.6'
 
+  s.add_development_dependency 'rake' ,       '>= 0.9.0'
   s.add_development_dependency 'guard',       '~> 1.0.1'
   s.add_development_dependency 'rspec',       '~> 2.9.0'
   s.add_development_dependency 'guard-rspec', '~> 0.7.0'
