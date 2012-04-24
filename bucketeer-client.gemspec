@@ -10,10 +10,16 @@ Gem::Specification.new do |s|
   EOS
   s.authors     = ["Michael Xavier"]
   s.email       = 'michael@michaelxavier.net'
-  s.files       = %w[ lib/bucketeer-client.rb
+  s.files       = %w[ .gitignore
+                      Gemfile
+                      Guardfile
+                      LICENSE
+                      README.md
+                      Rakefile
+                      bucketeer-client.gemspec
+                      lib/bucketeer-client.rb
                       lib/bucketeer/bucket.rb
-                      lib/bucketeer/client.rb
-                      Gemfile ]
+                      lib/bucketeer/client.rb ]
   s.require_path = 'lib'
 
   s.add_runtime_dependency 'json',               '~> 1.6'
