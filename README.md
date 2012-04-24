@@ -1,5 +1,6 @@
 bucketeer-client
 ----------------
+[![Build Status](https://secure.travis-ci.org/MichaelXavier/bucketeer-client-ruby.png)](http://travis-ci.org/MichaelXavier/bucketeer-client-ruby)
 
 bucketeer-client is a Ruby client for the HTTP rate limiting service,
 [Bucketeer](github.com/michaelxavier/Bucketeer). 
