@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'bucketeer-client'
-  s.version     = '0.0.1'
+  s.version     = '0.1.0'
   s.summary     = 'HTTP Client to the Bucketeer rate limiting service'
   s.description = <<-EOS
   bucketeer-client is an HTTP client built with Faraday. It is intended to be
